@@ -35,4 +35,12 @@ const deletePost = async (postId, authorId) => {
   await post.destroy();
 };
 
-module.exports = { getAllPosts, getPostById, createPost, updatePost, deletePost };
+const getAuthorHistory = async (authorId) => {
+  return await Post.findAll({
+    where: { authorId },
+    include: [{ model: Author, as: 'author', attributes: ['id', 'name', 'email'] }],
+    order: [['createdAt', 'DESC']],
+  });
+};
+
+module.exports = { getAllPosts, getPostById, createPost, updatePost, deletePost, getAuthorHistory };
