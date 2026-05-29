@@ -1,4 +1,4 @@
-import { Post } from '../models';
+const { Post } = require('../models');
 
 const findPostsByAuthorId = async (authorId) => {
   return await Post.findAll({
@@ -7,4 +7,4 @@ const findPostsByAuthorId = async (authorId) => {
   });
 };
 
-export default { findPostsByAuthorId };
+module.exports = { findPostsByAuthorId };

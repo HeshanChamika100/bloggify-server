@@ -6,6 +6,7 @@ const cookieOptions = {
   secure: process.env.NODE_ENV === 'production',
   maxAge: 60 * 60 * 24 * 7 * 1000, // 1 week in milliseconds
   path: '/',
+  sameSite: 'lax',
 };
 
 const signup = async (req, res) => {
@@ -39,7 +40,8 @@ const login = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  res.cookie('auth_token', '', { maxAge: 0, path: '/' });
+  // Clear cookie using same options to ensure it's removed in browser
+  res.cookie('auth_token', '', { ...cookieOptions, maxAge: 0 });
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
