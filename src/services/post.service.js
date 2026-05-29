@@ -2,14 +2,14 @@ const { Post, Author } = require('../models');
 
 const getAllPosts = async () => {
   return await Post.findAll({
-    include: [{ model: Author, attributes: ['id', 'name', 'email'] }],
+    include: [{ model: Author, as: 'author', attributes: ['id', 'name', 'email'] }],
     order: [['createdAt', 'DESC']],
   });
 };
 
 const getPostById = async (id) => {
   const post = await Post.findByPk(id, {
-    include: [{ model: Author, attributes: ['id', 'name', 'email'] }],
+    include: [{ model: Author, as: 'author', attributes: ['id', 'name', 'email'] }],
   });
   if (!post) throw new Error('Post not found');
   return post;

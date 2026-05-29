@@ -24,4 +24,15 @@ const updateProfile = async (authorId, { name, email, password }) => {
   return authorWithoutPassword;
 };
 
-module.exports = { updateProfile };
+const getCurrentUser = async (authorId) => {
+  const author = await authorRepo.findById(authorId);
+  if (!author) throw new Error('Author not found');
+
+  return {
+    id: author.id,
+    name: author.name,
+    email: author.email,
+  };
+};
+
+module.exports = { updateProfile, getCurrentUser };

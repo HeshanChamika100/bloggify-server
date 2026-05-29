@@ -1,4 +1,5 @@
 const authService = require('../services/auth.service');
+const authorService = require('../services/author.service');
 
 const cookieOptions = {
   httpOnly: true,
@@ -42,4 +43,14 @@ const logout = (req, res) => {
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
-module.exports = { signup, login, logout };
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await authorService.getCurrentUser(req.user.authorId);
+    res.status(200).json({ user });
+  } catch (error) {
+    const status = error.message === 'Author not found' ? 401 : 401;
+    res.status(status).json({ error: error.message === 'Author not found' ? 'User not found' : 'Invalid token' });
+  }
+};
+
+module.exports = { signup, login, logout, getCurrentUser };
